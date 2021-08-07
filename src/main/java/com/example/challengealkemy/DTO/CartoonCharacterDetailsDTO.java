@@ -1,9 +1,6 @@
 package com.example.challengealkemy.DTO;
 
-import com.example.challengealkemy.Models.MovieOrSerie;
-
 import java.util.List;
-import java.util.Set;
 
 public class CartoonCharacterDetailsDTO {
 
@@ -13,9 +10,9 @@ public class CartoonCharacterDetailsDTO {
     private Integer age;
     private Float weight;
     private String history;
-    private List<MovieOrSerieDTO> listMoviesOrSeries;
+    private List<MovieOrSeriesDTO> listMoviesOrSeries;
 
-    public CartoonCharacterDetailsDTO(Long id, String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSerieDTO> listMoviesOrSeries) {
+    public CartoonCharacterDetailsDTO(Long id, String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSeriesDTO> listMoviesOrSeries) {
         this.id = id;
         this.name = name;
         this.urlImg = urlImg;
@@ -73,11 +70,11 @@ public class CartoonCharacterDetailsDTO {
         this.history = history;
     }
 
-    public List<MovieOrSerieDTO> getListMoviesOrSeries() {
+    public List<MovieOrSeriesDTO> getListMoviesOrSeries() {
         return listMoviesOrSeries;
     }
 
-    public void setListMoviesOrSeries(List<MovieOrSerieDTO> listMoviesOrSeries) {
+    public void setListMoviesOrSeries(List<MovieOrSeriesDTO> listMoviesOrSeries) {
         this.listMoviesOrSeries = listMoviesOrSeries;
     }
 }

@@ -2,28 +2,16 @@ package com.example.challengealkemy.DTO;
 
 import java.time.LocalDate;
 
-public class MovieOrSerieDTO {
+public class MovieOrSeriesTitleImgDateDTO {
 
-    private Long id;
     private String title;
     private String urlImg;
     private LocalDate creationDate;
-    private Integer score;
 
-    public MovieOrSerieDTO(Long id, String title, String urlImg, LocalDate creationDate, Integer score) {
-        this.id = id;
+    public MovieOrSeriesTitleImgDateDTO(String title, String urlImg, LocalDate creationDate) {
         this.title = title;
         this.urlImg = urlImg;
         this.creationDate = creationDate;
-        this.score = score;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -48,13 +36,5 @@ public class MovieOrSerieDTO {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
     }
 }

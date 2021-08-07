@@ -2,8 +2,9 @@ package com.example.challengealkemy.Services;
 
 import com.example.challengealkemy.DTO.CartoonCharacterNameAndImgDTO;
 import com.example.challengealkemy.DTO.CartoonCharacterDetailsDTO;
+import com.example.challengealkemy.DTO.MovieOrSeriesDTO;
 import com.example.challengealkemy.Models.CartoonCharacter;
-import com.example.challengealkemy.Models.MovieOrSerie;
+import com.example.challengealkemy.Models.MovieOrSeries;
 import com.example.challengealkemy.Repositories.CartoonCharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,13 @@ import java.util.*;
 public class CartoonCharacterServiceImpl implements CartoonCharacterService {
 
     private final CartoonCharacterRepository cartoonCharacterRepository;
-    private final MovieOrSerieServiceImpl movieOrSerieService;
+    private final MovieOrSeriesServiceImpl movieOrSeriesService;
 
     @Autowired
     public CartoonCharacterServiceImpl(CartoonCharacterRepository cartoonCharacterRepository,
-                                       MovieOrSerieServiceImpl movieOrSerieService) {
+                                       MovieOrSeriesServiceImpl movieOrSeriesService) {
         this.cartoonCharacterRepository = cartoonCharacterRepository;
-        this.movieOrSerieService = movieOrSerieService;
+        this.movieOrSeriesService = movieOrSeriesService;
     }
 
 
@@ -63,12 +64,28 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
                     cartoonCharacter.getAge(),
                     cartoonCharacter.getWeight(),
                     cartoonCharacter.getHistory(),
-                    movieOrSerieService.getMoviesOrSeriesOfaCharacter(cartoonCharacter.getListMoviesOrSeries())
+                    getMoviesOrSeriesOfaCharacter(cartoonCharacter.getListMoviesOrSeries())
             );
             cartoonCharacterDetailsDTOList.add(newCartoonCharacter);
         }
 
         return cartoonCharacterDetailsDTOList;
+    }
+
+    private List<MovieOrSeriesDTO> getMoviesOrSeriesOfaCharacter(List<MovieOrSeries> movieOrSeriesList) {
+        List<MovieOrSeriesDTO> movieOrSeriesDTOList = new ArrayList<>();
+
+        for (MovieOrSeries movieOrSeries : movieOrSeriesList) {
+            MovieOrSeriesDTO newMovieOrSerie = new MovieOrSeriesDTO(
+                    movieOrSeries.getId(),
+                    movieOrSeries.getTitle(),
+                    movieOrSeries.getUrlImg(),
+                    movieOrSeries.getCreationDate(),
+                    movieOrSeries.getScore()
+            );
+            movieOrSeriesDTOList.add(newMovieOrSerie);
+        }
+        return movieOrSeriesDTOList;
     }
 
     @Override
@@ -142,12 +159,12 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
         return history != null && !Objects.equals(cartoonCharacter.getHistory(), history);
     }
 
-    private Boolean listOfMoviesOrSeriesIsValidToUpdate(List<MovieOrSerie> listMoviesOrSeries) {
+    private Boolean listOfMoviesOrSeriesIsValidToUpdate(List<MovieOrSeries> listMoviesOrSeries) {
         return listMoviesOrSeries != null;
     }
 
     private Boolean nameIsValidToAdd(CartoonCharacter cartoonCharacter) {
-        return cartoonCharacter.getName() == null && cartoonCharacter.getName().length() < 3;
+        return cartoonCharacter.getName() == null || cartoonCharacter.getName().length() < 3;
     }
 
     private List<CartoonCharacterNameAndImgDTO> getCartoonCharacterNameAndImgDTOList(List<CartoonCharacter> listCartoons) {
@@ -179,7 +196,7 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
     }
 
     private List<CartoonCharacterNameAndImgDTO> getCartoonsCharactersByIdMovie(HashMap<String, String> param) {
-        MovieOrSerie searchedMovie = movieOrSerieService.getMovieById(Long.parseLong(param.get("movies")));
+        MovieOrSeries searchedMovie = movieOrSeriesService.getMovieById(Long.parseLong(param.get("movies")));
         List<CartoonCharacter> cartoonCharacterList = searchedMovie.getListCartoonCharacters();
         return getCartoonCharacterNameAndImgDTOList(cartoonCharacterList);
     }

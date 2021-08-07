@@ -1,6 +1,7 @@
 package com.example.challengealkemy.Models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,23 +17,23 @@ public class Genre {
             CascadeType.MERGE
     })
     @JoinTable(
-            name = "gender_movieOrSerie",
+            name = "gender_movieOrSeries",
             joinColumns = {@JoinColumn(name = "gender_id")},
-            inverseJoinColumns = {@JoinColumn(name = "movieOrSerie")}
+            inverseJoinColumns = {@JoinColumn(name = "movieOrSeries")}
     )
-    private Set<MovieOrSerie> listMoviesOrSeries;
+    private List<MovieOrSeries> listMoviesOrSeries;
 
     public Genre() {
     }
 
-    public Genre(Long id, String name, String urlImg, Set<MovieOrSerie> listMoviesOrSeries) {
+    public Genre(Long id, String name, String urlImg, List<MovieOrSeries> listMoviesOrSeries) {
         this.id = id;
         this.name = name;
         this.urlImg = urlImg;
         this.listMoviesOrSeries = listMoviesOrSeries;
     }
 
-    public Genre(String name, String urlImg, Set<MovieOrSerie> listMoviesOrSeries) {
+    public Genre(String name, String urlImg, List<MovieOrSeries> listMoviesOrSeries) {
         this.name = name;
         this.urlImg = urlImg;
         this.listMoviesOrSeries = listMoviesOrSeries;
@@ -62,11 +63,11 @@ public class Genre {
         this.urlImg = urlImg;
     }
 
-    public Set<MovieOrSerie> getListMoviesOrSeries() {
+    public List<MovieOrSeries> getListMoviesOrSeries() {
         return listMoviesOrSeries;
     }
 
-    public void setListMoviesOrSeries(Set<MovieOrSerie> listMoviesOrSeries) {
+    public void setListMoviesOrSeries(List<MovieOrSeries> listMoviesOrSeries) {
         this.listMoviesOrSeries = listMoviesOrSeries;
     }
 

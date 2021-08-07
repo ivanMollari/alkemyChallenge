@@ -3,7 +3,6 @@ package com.example.challengealkemy.Models;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class CartoonCharacter {
@@ -22,13 +21,13 @@ public class CartoonCharacter {
             CascadeType.MERGE
     })
     @JoinTable(
-            name = "movieOrSerie_cartoonCharacter",
+            name = "movieOrSeries_cartoonCharacter",
             joinColumns = @JoinColumn(name = "cartoonCharacter_id"),
-            inverseJoinColumns = @JoinColumn(name = "movieOrSerie_id")
+            inverseJoinColumns = @JoinColumn(name = "movieOrSeries_id")
     )
-    private List<MovieOrSerie> listMoviesOrSeries;
+    private List<MovieOrSeries> listMoviesOrSeries;
 
-    public CartoonCharacter(String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSerie> listMoviesOrSeries) {
+    public CartoonCharacter(String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSeries> listMoviesOrSeries) {
         this.name = name;
         this.urlImg = urlImg;
         this.age = age;
@@ -37,7 +36,7 @@ public class CartoonCharacter {
         this.listMoviesOrSeries = listMoviesOrSeries;
     }
 
-    public CartoonCharacter(Long id, String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSerie> listMoviesOrSeries) {
+    public CartoonCharacter(Long id, String name, String urlImg, Integer age, Float weight, String history, List<MovieOrSeries> listMoviesOrSeries) {
         this.id = id;
         this.name = name;
         this.urlImg = urlImg;
@@ -99,11 +98,11 @@ public class CartoonCharacter {
         this.history = history;
     }
 
-    public List<MovieOrSerie> getListMoviesOrSeries() {
+    public List<MovieOrSeries> getListMoviesOrSeries() {
         return listMoviesOrSeries;
     }
 
-    public void setListMoviesOrSeries(List<MovieOrSerie> listMoviesOrSeries) {
+    public void setListMoviesOrSeries(List<MovieOrSeries> listMoviesOrSeries) {
         this.listMoviesOrSeries = listMoviesOrSeries;
     }
 

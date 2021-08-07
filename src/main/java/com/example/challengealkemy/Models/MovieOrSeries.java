@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class MovieOrSerie {
+public class MovieOrSeries {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,12 @@ public class MovieOrSerie {
                 mappedBy = "listMoviesOrSeries")
     private List<CartoonCharacter> listCartoonCharacters;
     @ManyToMany(mappedBy = "listMoviesOrSeries")
-    private Set<Genre> listGenre;
+    private List<Genre> listGenre;
 
-    public MovieOrSerie() {
+    public MovieOrSeries() {
     }
 
-    public MovieOrSerie(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
+    public MovieOrSeries(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
         this.id = id;
         this.title = title;
         this.urlImg = urlImg;
@@ -37,7 +37,7 @@ public class MovieOrSerie {
         this.listCartoonCharacters = listCartoonCharacters;
     }
 
-    public MovieOrSerie(String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
+    public MovieOrSeries(String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
         this.title = title;
         this.urlImg = urlImg;
         this.creationDate = creationDate;
@@ -93,11 +93,11 @@ public class MovieOrSerie {
         this.listCartoonCharacters = listCartoonCharacters;
     }
 
-    public Set<Genre> getListGender() {
+    public List<Genre> getListGender() {
         return listGenre;
     }
 
-    public void setListGender(Set<Genre> listGenre) {
+    public void setListGender(List<Genre> listGenre) {
         this.listGenre = listGenre;
     }
 

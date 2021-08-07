@@ -1,9 +1,5 @@
 package com.example.challengealkemy.DTO;
 
-import com.example.challengealkemy.Models.MovieOrSerie;
-
-import java.util.Set;
-
 public class CartoonCharacterNameAndImgDTO {
 
     private String name;
