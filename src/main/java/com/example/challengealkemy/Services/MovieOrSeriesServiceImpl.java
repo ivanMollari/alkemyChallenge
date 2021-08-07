@@ -14,19 +14,19 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
 
     private final MovieOrSeriesRepository movieOrSeriesRepository;
+    private final GenreServiceImpl genreService;
 
     @Autowired
-    public MovieOrSeriesServiceImpl(MovieOrSeriesRepository movieOrSeriesRepository) {
+    public MovieOrSeriesServiceImpl(MovieOrSeriesRepository movieOrSeriesRepository,
+                                    GenreServiceImpl genreService) {
         this.movieOrSeriesRepository = movieOrSeriesRepository;
+        this.genreService = genreService;
     }
 
 
@@ -36,20 +36,78 @@ public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
     }
 
     @Override
-    public List<MovieOrSeriesTitleImgDateDTO> getMoviesOrSeriesList() {
+    public List<MovieOrSeriesTitleImgDateDTO> getMoviesOrSeriesList(HashMap<String, String> param) {
         List<MovieOrSeries> listMoviesOrSeries = movieOrSeriesRepository.findAll();
         List<MovieOrSeriesTitleImgDateDTO> movieOrSeriesTitleImgDateDTOList = new ArrayList<>();
 
-        for (MovieOrSeries movieOrSeries : listMoviesOrSeries) {
-            MovieOrSeriesTitleImgDateDTO newMovieOrSeries = new MovieOrSeriesTitleImgDateDTO(
-                    movieOrSeries.getTitle(),
-                    movieOrSeries.getUrlImg(),
-                    movieOrSeries.getCreationDate()
-            );
-            movieOrSeriesTitleImgDateDTOList.add(newMovieOrSeries);
+        if(param != null){
+            if(param.containsKey("name")){
+                if(param.get("name") != null){
+                    movieOrSeriesTitleImgDateDTOList.add(getMovieOrSeriesByNameParam(param));
+                }
+            } else if (param.containsKey("genre")){
+                if(param.get("genre") != null){
+                    movieOrSeriesTitleImgDateDTOList = getMovieOrSeriesByIdGenreParam(param);
+                }
+            } else if(param.containsKey("order")){
+                if(param.get("order") != null){
+                    movieOrSeriesTitleImgDateDTOList = getMoviesOrSeriesInOrderByParam(param);
+                }
+            } else {
+                movieOrSeriesTitleImgDateDTOList = getMovieOrSeriesTitleImgDateDTOList(listMoviesOrSeries);
+            }
         }
 
         return movieOrSeriesTitleImgDateDTOList;
+    }
+
+    private List<MovieOrSeriesTitleImgDateDTO> getMoviesOrSeriesInOrderByParam(HashMap<String, String> param) {
+        List<MovieOrSeriesTitleImgDateDTO> movieOrSeriesTitleImgDateDTOList;
+
+        if(param.get("order").equals("ASC")){
+            movieOrSeriesTitleImgDateDTOList = getMovieOrSeriesTitleImgDateDTOList(
+                    movieOrSeriesRepository.findAllMoviesOrSeriesByCreationDateInOrderASC()
+            );
+        }else if (param.get("order").equals("DESC")){
+            movieOrSeriesTitleImgDateDTOList = getMovieOrSeriesTitleImgDateDTOList(
+                    movieOrSeriesRepository.findAllMoviesOrSeriesByCreationDateInOrderDESC()
+            );
+        }else{
+            throw new IllegalStateException("The list does not exist");
+        }
+        return movieOrSeriesTitleImgDateDTOList;
+    }
+
+    private List<MovieOrSeriesTitleImgDateDTO> getMovieOrSeriesByIdGenreParam(HashMap<String, String> param) {
+        Genre searchedGenre = genreService.findById(Long.parseLong(param.get("genre")));
+        List<MovieOrSeries> movieOrSeriesList = searchedGenre.getListMoviesOrSeries();
+        return getMovieOrSeriesTitleImgDateDTOList(movieOrSeriesList);
+    }
+
+    private MovieOrSeriesTitleImgDateDTO getMovieOrSeriesByNameParam(HashMap<String, String> param) {
+        Optional<MovieOrSeries> searchedMovieOrSeries = movieOrSeriesRepository.findByTitle(param.get("name"));
+        if(searchedMovieOrSeries.isEmpty()){
+            throw new IllegalStateException("This movie or series does not exist");
+        }
+        return createNewMovieOrSeriesTitleImgDateDTO(searchedMovieOrSeries.get());
+    }
+
+    private MovieOrSeriesTitleImgDateDTO createNewMovieOrSeriesTitleImgDateDTO(MovieOrSeries movieOrSeries) {
+        return new MovieOrSeriesTitleImgDateDTO(
+                movieOrSeries.getTitle(),
+                movieOrSeries.getUrlImg(),
+                movieOrSeries.getCreationDate()
+        );
+    }
+
+    private List<MovieOrSeriesTitleImgDateDTO> getMovieOrSeriesTitleImgDateDTOList(List<MovieOrSeries> movieOrSeriesList){
+        List<MovieOrSeriesTitleImgDateDTO> getMovieOrSeriesTitleImgDateDTOList = new ArrayList<>();
+
+        for (MovieOrSeries movieOrSeries : movieOrSeriesList) {
+            MovieOrSeriesTitleImgDateDTO newMovieOrSeries = createNewMovieOrSeriesTitleImgDateDTO(movieOrSeries);
+            getMovieOrSeriesTitleImgDateDTOList.add(newMovieOrSeries);
+        }
+        return getMovieOrSeriesTitleImgDateDTOList;
     }
 
     @Override

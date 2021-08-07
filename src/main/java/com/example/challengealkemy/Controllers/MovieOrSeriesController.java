@@ -8,6 +8,7 @@ import com.example.challengealkemy.Services.MovieOrSeriesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,9 @@ public class MovieOrSeriesController {
     }
 
     @GetMapping("/movies")
-    public List<MovieOrSeriesTitleImgDateDTO> getMovies(){
-        return movieOrSeriesService.getMoviesOrSeriesList();
+    public List<MovieOrSeriesTitleImgDateDTO> getMovies(@RequestParam HashMap<String, String> param){
+
+        return movieOrSeriesService.getMoviesOrSeriesList(param);
     }
 
     @GetMapping("/movies/details")
