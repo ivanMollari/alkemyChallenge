@@ -76,14 +76,14 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
         List<MovieOrSeriesDTO> movieOrSeriesDTOList = new ArrayList<>();
 
         for (MovieOrSeries movieOrSeries : movieOrSeriesList) {
-            MovieOrSeriesDTO newMovieOrSerie = new MovieOrSeriesDTO(
+            MovieOrSeriesDTO newMovieOrSeries = new MovieOrSeriesDTO(
                     movieOrSeries.getId(),
                     movieOrSeries.getTitle(),
                     movieOrSeries.getUrlImg(),
                     movieOrSeries.getCreationDate(),
                     movieOrSeries.getScore()
             );
-            movieOrSeriesDTOList.add(newMovieOrSerie);
+            movieOrSeriesDTOList.add(newMovieOrSeries);
         }
         return movieOrSeriesDTOList;
     }
@@ -125,6 +125,10 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
             searchedCartoonCharacter.setName(cartoonCharacter.getName());
         }
 
+        if(urlImgIsValidToUpdate(cartoonCharacter.getUrlImg(),searchedCartoonCharacter)){
+            searchedCartoonCharacter.setUrlImg(cartoonCharacter.getUrlImg());
+        }
+
         if (ageIsValidToUpdate(cartoonCharacter.getAge(), searchedCartoonCharacter)) {
             searchedCartoonCharacter.setAge(cartoonCharacter.getAge());
         }
@@ -141,6 +145,10 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
             searchedCartoonCharacter.setListMoviesOrSeries(cartoonCharacter.getListMoviesOrSeries());
         }
 
+    }
+
+    private boolean urlImgIsValidToUpdate(String urlImg, CartoonCharacter searchedCartoonCharacter) {
+        return urlImg != null && !Objects.equals(searchedCartoonCharacter.getUrlImg(),urlImg);
     }
 
     private Boolean nameIsValidToUpdate(String name, CartoonCharacter cartoonCharacter) {

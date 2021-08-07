@@ -22,27 +22,38 @@ public class MovieOrSeries {
                 },
                 mappedBy = "listMoviesOrSeries")
     private List<CartoonCharacter> listCartoonCharacters;
-    @ManyToMany(mappedBy = "listMoviesOrSeries")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "movieOrSeries_genre",
+            joinColumns = @JoinColumn(name = "movieOrSeries_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
     private List<Genre> listGenre;
 
-    public MovieOrSeries() {
-    }
-
-    public MovieOrSeries(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
+    public MovieOrSeries(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters,List<Genre> genreList) {
         this.id = id;
         this.title = title;
         this.urlImg = urlImg;
         this.creationDate = creationDate;
         this.score = score;
         this.listCartoonCharacters = listCartoonCharacters;
+        this.listGenre = genreList;
     }
 
-    public MovieOrSeries(String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters) {
+    public MovieOrSeries(String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacter> listCartoonCharacters, List<Genre> genreList) {
         this.title = title;
         this.urlImg = urlImg;
         this.creationDate = creationDate;
         this.score = score;
         this.listCartoonCharacters = listCartoonCharacters;
+        this.listGenre = genreList;
+    }
+
+    public MovieOrSeries() {
     }
 
     public Long getId() {

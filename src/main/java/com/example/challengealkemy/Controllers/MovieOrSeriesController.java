@@ -6,10 +6,7 @@ import com.example.challengealkemy.DTO.MovieOrSeriesTitleImgDateDTO;
 import com.example.challengealkemy.Models.MovieOrSeries;
 import com.example.challengealkemy.Services.MovieOrSeriesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,9 +30,20 @@ public class MovieOrSeriesController {
         return movieOrSeriesService.getAllAttributesOfMoviesOrSeries();
     }
 
-    @PostMapping
+    @PostMapping("/movies/add")
     public void addNewMovieOrSeries(@RequestBody MovieOrSeries movieOrSeries){
         movieOrSeriesService.addNewMovieOrSeries(movieOrSeries);
     }
 
+    @DeleteMapping("/movies/delete/{idMovieOrSeries}")
+    public void deleteMovieOrSeries(@PathVariable("idMovieOrSeries")Long id){
+        movieOrSeriesService.deleteMovieOrSeries(id);
+    }
+
+    @PutMapping("movies/update/{idMoviesOrSeries}")
+    public void updateMovieOrSeries(@PathVariable("idMoviesOrSeries")Long id,
+                                    @RequestBody MovieOrSeries movieOrSeries){
+        movieOrSeriesService.updateMovieOrSeries(id,movieOrSeries);
+
+    }
 }

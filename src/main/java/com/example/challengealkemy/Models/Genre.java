@@ -12,18 +12,20 @@ public class Genre {
     private Long id;
     private String name;
     private String urlImg;
-    @ManyToMany(cascade = {
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "gender_movieOrSeries",
-            joinColumns = {@JoinColumn(name = "gender_id")},
-            inverseJoinColumns = {@JoinColumn(name = "movieOrSeries")}
-    )
+    }, mappedBy = "listGenre")
     private List<MovieOrSeries> listMoviesOrSeries;
 
     public Genre() {
+    }
+
+    public Genre(Long id, String name, String urlImg) {
+        this.id = id;
+        this.name = name;
+        this.urlImg = urlImg;
     }
 
     public Genre(Long id, String name, String urlImg, List<MovieOrSeries> listMoviesOrSeries) {

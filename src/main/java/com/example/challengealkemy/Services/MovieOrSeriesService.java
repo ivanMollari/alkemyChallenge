@@ -15,4 +15,8 @@ public interface MovieOrSeriesService {
     List<MovieOrSeriesDetailsDTO> getAllAttributesOfMoviesOrSeries();
 
     void addNewMovieOrSeries(MovieOrSeries newMovieOrSeries);
+
+    void deleteMovieOrSeries(Long id);
+
+    void updateMovieOrSeries(Long id, MovieOrSeries movieOrSeries);
 }

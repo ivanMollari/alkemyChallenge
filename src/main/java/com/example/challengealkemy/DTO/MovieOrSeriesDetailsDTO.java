@@ -11,14 +11,16 @@ public class MovieOrSeriesDetailsDTO {
     private LocalDate creationDate;
     private Integer score;
     private List<CartoonCharacterDTO> cartoonCharactersList;
+    private List<GenreDTO> genreList;
 
-    public MovieOrSeriesDetailsDTO(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacterDTO> cartoonCharactersList) {
+    public MovieOrSeriesDetailsDTO(Long id, String title, String urlImg, LocalDate creationDate, Integer score, List<CartoonCharacterDTO> cartoonCharactersList, List<GenreDTO> genroList) {
         this.id = id;
         this.title = title;
         this.urlImg = urlImg;
         this.creationDate = creationDate;
         this.score = score;
         this.cartoonCharactersList = cartoonCharactersList;
+        this.genreList = genroList;
     }
 
     public Long getId() {
@@ -67,5 +69,13 @@ public class MovieOrSeriesDetailsDTO {
 
     public void setCartoonCharactersList(List<CartoonCharacterDTO> cartoonCharactersList) {
         this.cartoonCharactersList = cartoonCharactersList;
+    }
+
+    public List<GenreDTO> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<GenreDTO> genreList) {
+        this.genreList = genreList;
     }
 }
