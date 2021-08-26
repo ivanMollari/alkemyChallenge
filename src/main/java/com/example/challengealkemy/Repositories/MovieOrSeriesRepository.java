@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface MovieOrSeriesRepository extends JpaRepository<MovieOrSeries,Long> {
 
+    Optional<MovieOrSeries> findById(Long id);
+
     Optional<MovieOrSeries> findByTitle(String title);
 
     @Query("SELECT m FROM MovieOrSeries m ORDER BY m.creationDate ASC")

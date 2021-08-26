@@ -73,7 +73,7 @@ public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
                     movieOrSeriesRepository.findAllMoviesOrSeriesByCreationDateInOrderDESC()
             );
         }else{
-            throw new IllegalStateException("The list does not exist");
+            throw new IllegalStateException("The order parameter is not valid");
         }
         return movieOrSeriesTitleImgDateDTOList;
     }
@@ -154,14 +154,14 @@ public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
 
         MovieOrSeries searchedMovieOrSeries = movieOrSeriesRepository.findById(id).
                 orElseThrow(() -> new IllegalStateException("Movie o series with id:" +
-                        id + "does not exists"));
+                        id + " does not exists"));
 
         if (titleIsValidToUpdate(movieOrSeries.getTitle(), searchedMovieOrSeries)) {
             Optional<MovieOrSeries> movieOrSeriesOptional = movieOrSeriesRepository
                     .findByTitle(movieOrSeries.getTitle());
 
             if (movieOrSeriesOptional.isPresent()) {
-                throw new IllegalStateException("this title is already registered");
+                throw new IllegalStateException("This title is already registered");
             }
             searchedMovieOrSeries.setTitle(movieOrSeries.getTitle());
         }
@@ -205,7 +205,7 @@ public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
     }
 
     private boolean urlImgIsValidToUpdate(String urlImg, MovieOrSeries searchedMovieOrSeries) {
-        return urlImg != null && !Objects.equals(searchedMovieOrSeries.getUrlImg(),urlImg);
+        return urlImg != null && urlImg.length() > 30 && !Objects.equals(searchedMovieOrSeries.getUrlImg(),urlImg);
     }
 
     private boolean titleIsValidToUpdate(String title, MovieOrSeries searchedMovieOrSeries) {
