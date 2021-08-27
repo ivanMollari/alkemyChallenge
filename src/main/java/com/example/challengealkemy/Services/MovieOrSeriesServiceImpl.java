@@ -31,8 +31,8 @@ public class MovieOrSeriesServiceImpl implements MovieOrSeriesService {
 
 
     @Override
-    public MovieOrSeries getMovieById(Long id) {
-        return movieOrSeriesRepository.getById(id);
+    public Optional<MovieOrSeries> getMovieById(Long id) {
+        return movieOrSeriesRepository.findById(id);
     }
 
     @Override

@@ -6,10 +6,11 @@ import com.example.challengealkemy.Models.MovieOrSeries;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieOrSeriesService {
 
-    MovieOrSeries getMovieById(Long id);
+    Optional<MovieOrSeries> getMovieById(Long id);
 
     List<MovieOrSeriesTitleImgDateDTO> getMoviesOrSeriesList(HashMap<String, String> param);
 

@@ -39,7 +39,7 @@ public class RegistrationService {
                 request.getLastName(),
                 request.getEmail(),
                 request.getPassword(),
-                AppUserRole.USER
+                AppUserRole.ADMIN
         ));
         String link = "http://localhost:8080/auth/register/confirm?token=" + token;
         emailSenderService.send(request.getEmail(),buildEmail(request.getFirstName(), link));

@@ -204,8 +204,12 @@ public class CartoonCharacterServiceImpl implements CartoonCharacterService {
     }
 
     private List<CartoonCharacterNameAndImgDTO> getCartoonsCharactersByIdMovie(HashMap<String, String> param) {
-        MovieOrSeries searchedMovie = movieOrSeriesService.getMovieById(Long.parseLong(param.get("movies")));
-        List<CartoonCharacter> cartoonCharacterList = searchedMovie.getListCartoonCharacters();
-        return getCartoonCharacterNameAndImgDTOList(cartoonCharacterList);
+        List<CartoonCharacterNameAndImgDTO> cartoonCharacterNameAndImgDTOList = new ArrayList<>();
+        Optional<MovieOrSeries> searchedMovie = movieOrSeriesService.getMovieById(Long.parseLong(param.get("movies")));
+        if(searchedMovie.isPresent()) {
+            List<CartoonCharacter> cartoonCharacterList = searchedMovie.get().getListCartoonCharacters();
+            cartoonCharacterNameAndImgDTOList = getCartoonCharacterNameAndImgDTOList(cartoonCharacterList);
+        }
+        return cartoonCharacterNameAndImgDTOList;
     }
 }
