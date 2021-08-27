@@ -36,7 +36,7 @@ class MovieOrSeriesServiceImplTest {
     @InjectMocks
     private MovieOrSeriesServiceImpl movieOrSeriesService;
 
-    /*@Test
+    @Test
     void itShouldBringTheMovieById() {
 
         List<CartoonCharacter> cartoonCharacterList = new ArrayList<>();
@@ -52,13 +52,13 @@ class MovieOrSeriesServiceImplTest {
                 genreList
         );
 
-        when(movieOrSeriesRepository.getById(movie.getId())).thenReturn(movie);
+        when(movieOrSeriesRepository.findById(movie.getId())).thenReturn(Optional.of(movie));
 
-        MovieOrSeries expected = movieOrSeriesService.getMovieById(movie.getId());
+        Optional<MovieOrSeries> expected = movieOrSeriesService.getMovieById(movie.getId());
 
-        assertThat(expected).isNotNull();
-        verify(movieOrSeriesRepository, times(1)).getById(movie.getId());
-    }*/
+        assertThat(expected.get()).isNotNull();
+        verify(movieOrSeriesRepository, times(1)).findById(movie.getId());
+    }
 
     @Test
     void itShouldGetAllMoviesOrSeriesList() {
